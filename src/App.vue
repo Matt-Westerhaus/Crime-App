@@ -123,6 +123,10 @@ export default {
     <div v-show="view === 'map'">
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
+                <div style = "position:absolute; left:80px; top:20px;">
+                    <!--Input TextBox-->
+                    <input class="e-input" type="text" placeholder="Enter Location or Coord." />
+                </div>
                 <div id="leafletmap" class="cell auto"></div>
             </div>
         </div>
@@ -164,4 +168,5 @@ export default {
     text-align: center;
     cursor: pointer;
 }
+
 </style>
