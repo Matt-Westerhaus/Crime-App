@@ -4,6 +4,7 @@ import $ from 'jquery'
 export default {
     data() {
         return {
+            location: '',
             view: 'map',
             codes: [],
             neighborhoods: [],
@@ -108,6 +109,11 @@ export default {
         }).catch((error) => {
             console.log('Error:', error);
         });
+    },
+
+    search() {
+        console.log("test");
+        console.log(this.location);
     }
 }
 </script>
@@ -125,7 +131,8 @@ export default {
             <div class="grid-x grid-padding-x">
                 <div style = "position:absolute; left:80px; top:20px;">
                     <!--Input TextBox-->
-                    <input class="e-input" type="text" placeholder="Enter Location or Coord." />
+                    <input class="e-input" type="text" v-model="location" placeholder="Enter Location or Coord." />
+                    <button type="button" class="button" @click="search">Go</button>
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
             </div>
