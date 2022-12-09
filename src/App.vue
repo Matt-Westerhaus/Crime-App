@@ -44,13 +44,20 @@ export default {
         };
     },
     methods: {
-
         searchLocation() {
             let url = "https://nominatim.openstreetmap.org/?street='"
             url += this.location + "'&format=json&limit=1";
-            let streetJSON = this.getJSON(url);
-            console.log(streetJSON);
-            this.leaflet.map = L.map('leafletmap').setView(["44.9776111", "-93.05989593333334"], this.leaflet.zoom);
+            this.getJSON(url)
+            .then((data) => {
+                map.setView(new L.LatLng(data[0].lat, data[0].lon), 12);
+
+                //map.flyTo(new L.LatLng(data[0].lat, data[0].lon), AnimationEffect(true));
+                //this.leaflet.map = L.map('leafletmap').setView([data.lat, data.lon], this.leaflet.zoom);
+            })
+            .catch((err) => {
+
+            });
+
         },
 
         viewMap(event) {
@@ -118,7 +125,7 @@ export default {
         }).catch((error) => {
             console.log('Error:', error);
         });
-    }
+    },
 }
 </script>
 
@@ -135,7 +142,7 @@ export default {
             <div class="grid-x grid-padding-x">
                 <div style = "position:absolute; left:80px; top:20px;">
                     <!--Input TextBox-->
-                    <input class="e-input" type="text" v-model="location" placeholder="Enter Street or Coordinate" />
+                    <input class="e-input" type="text" v-model="location" placeholder="Enter Location or Coord." />
                     <button type="button" class="button" @click="searchLocation">Go</button>
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
