@@ -50,7 +50,6 @@ export default {
             this.getJSON(url)
             .then((data) => {
                 map.setView(new L.LatLng(data[0].lat, data[0].lon), 12);
-
                 //map.flyTo(new L.LatLng(data[0].lat, data[0].lon), AnimationEffect(true));
                 //this.leaflet.map = L.map('leafletmap').setView([data.lat, data.lon], this.leaflet.zoom);
             })
@@ -154,6 +153,25 @@ export default {
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
                 <h1 class="cell auto">New Incident Form</h1>
+                <form>
+                    <label for="case_number">Case Number:</label><br>
+                    <input type="text" id="case_numver"><br>
+                    <label for="date_time">Date & Time:</label><br>
+                    <input type="datetime-local" id="date_time"><br>
+                    <label for="code">Code:</label><br>
+                    <input type="number" id="code"><br>
+                    <label for="incident">Incident:</label><br>
+                    <input type="text" id="code"><br>
+                    <label for="police_grid">Police Grid:</label><br>
+                    <input type="number" id="police_grid"><br>
+                    <label for="neighborhood_number">Neighborhood Number:</label><br>
+                    <input type="number" id="neighborhood_number"><br>
+                    <label for="block">Block:</label><br>
+                    <input type="text" id="block"><br>
+
+                    <button type="button">Submit</button>
+
+                </form>
             </div>
         </div>
     </div>
