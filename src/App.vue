@@ -60,6 +60,7 @@ export default {
             url += this.location + "'&format=json&limit=1";
             this.getJSON(url)
             .then((data) => {
+<<<<<<< HEAD
                 // Clamp coordinate if lat or lon is out of bbound
                 if (data[0].lat < 44.883658) {
                     data[0].lat = 44.883658;
@@ -79,6 +80,11 @@ export default {
                 let marker = new L.Marker([data[0].lat, data[0].lon]);
                 // Adding marker to the map
                 marker.addTo(this.leaflet.map);
+=======
+                map.setView(new L.LatLng(data[0].lat, data[0].lon), 12);
+                //map.flyTo(new L.LatLng(data[0].lat, data[0].lon), AnimationEffect(true));
+                //this.leaflet.map = L.map('leafletmap').setView([data.lat, data.lon], this.leaflet.zoom);
+>>>>>>> 2e0aefee7f3e7409ebb1e525a9eece5514037c60
             })
             .catch((err) => {
             });
@@ -171,6 +177,25 @@ export default {
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
                 <h1 class="cell auto">New Incident Form</h1>
+                <form>
+                    <label for="case_number">Case Number:</label><br>
+                    <input type="text" id="case_numver"><br>
+                    <label for="date_time">Date & Time:</label><br>
+                    <input type="datetime-local" id="date_time"><br>
+                    <label for="code">Code:</label><br>
+                    <input type="number" id="code"><br>
+                    <label for="incident">Incident:</label><br>
+                    <input type="text" id="code"><br>
+                    <label for="police_grid">Police Grid:</label><br>
+                    <input type="number" id="police_grid"><br>
+                    <label for="neighborhood_number">Neighborhood Number:</label><br>
+                    <input type="number" id="neighborhood_number"><br>
+                    <label for="block">Block:</label><br>
+                    <input type="text" id="block"><br>
+
+                    <button type="button">Submit</button>
+
+                </form>
             </div>
         </div>
     </div>
