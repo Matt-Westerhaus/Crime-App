@@ -1,6 +1,5 @@
 <script>
 import $ from 'jquery'
-
 export default {
     data() {
         return {
@@ -44,34 +43,55 @@ export default {
         };
     },
     methods: {
+        drawMarker() {
+          let i = 0;
+          for (i; i < this.leaflet.neighborhood_markers.length; i++) {
+            // Set temp marker to have neighbor coordinate
+            let temp_marker = new L.Marker([this.leaflet.neighborhood_markers[i].location[0], this.leaflet.neighborhood_markers[i].location[1]]);
+            // Set neighbor marker to be temp marker
+            this.leaflet.neighborhood_markers[i].marker = temp_marker;
+            // Add marker to map
+            temp_marker.addTo(this.leaflet.map);
+          }  
+        },
+        // TODO: If they search wit lat/lon instead of a street/place name
         searchLocation() {
             let url = "https://nominatim.openstreetmap.org/?street='"
             url += this.location + "'&format=json&limit=1";
             this.getJSON(url)
             .then((data) => {
-                map.setView(new L.LatLng(data[0].lat, data[0].lon), 12);
-
-                //map.flyTo(new L.LatLng(data[0].lat, data[0].lon), AnimationEffect(true));
-                //this.leaflet.map = L.map('leafletmap').setView([data.lat, data.lon], this.leaflet.zoom);
+                // Clamp coordinate if lat or lon is out of bbound
+                if (data[0].lat < 44.883658) {
+                    data[0].lat = 44.883658;
+                } 
+                if (data[0].lat < -93.217977) {
+                    data[0].lat = -93.217977;
+                }
+                if (data[0].lon > 45.008206) {
+                    data[0].lon = 45.008206;
+                }
+                if (data[0].lon > -92.993787) {
+                    data[0].lon = -92.993787;
+                }
+                // Zoom to search location
+                this.leaflet.map.flyTo(new L.LatLng(data[0].lat, data[0].lon), 18);    
+                // Creating a marker
+                let marker = new L.Marker([data[0].lat, data[0].lon]);
+                // Adding marker to the map
+                marker.addTo(this.leaflet.map);
             })
             .catch((err) => {
-
             });
-
         },
-
         viewMap(event) {
             this.view = 'map';
         },
-
         viewNewIncident(event) {
             this.view = 'new_incident';
         },
-
         viewAbout(event) {
             this.view = 'about';
         },
-
         getJSON(url) {
             return new Promise((resolve, reject) => {
                 $.ajax({
@@ -86,7 +106,6 @@ export default {
                 });
             });
         },
-
         uploadJSON(method, url, data) {
             return new Promise((resolve, reject) => {
                 $.ajax({
@@ -113,10 +132,8 @@ export default {
             maxZoom: 18
         }).addTo(this.leaflet.map);
         this.leaflet.map.setMaxBounds([[44.883658, -93.217977], [45.008206, -92.993787]]);
-
         let district_boundary = new L.geoJson();
         district_boundary.addTo(this.leaflet.map);
-
         this.getJSON('/data/StPaulDistrictCouncil.geojson').then((result) => {
             // St. Paul GeoJSON
             $(result.features).each((key, value) => {
@@ -171,7 +188,6 @@ export default {
 #leafletmap {
     height: 500px;
 }
-
 .selected {
     background-color: rgb(10, 100, 126);
     color: white;
@@ -186,5 +202,5 @@ export default {
     text-align: center;
     cursor: pointer;
 }
-
 </style>
+
