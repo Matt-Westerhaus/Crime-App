@@ -1,6 +1,5 @@
 <script>
 import $ from 'jquery'
-import map_page from './components/map.vue'
 import about from './components/about.vue'
 import new_incident from './components/new_incident.vue'
 export default {
@@ -148,8 +147,7 @@ export default {
     },
     components: { 
         new_incident,
-        about,
-        map_page
+        about
      }
 }
 </script>
@@ -165,16 +163,39 @@ export default {
     </div>
 
     <div v-if="view === 'map'">
-        <!-- map component here -->
-         <map_page /> 
+        <div class="grid-container">
+            <div class="grid-x grid-padding-x">
+                <div style = "position:absolute; left:80px; top:20px;">
+                    <!--Input TextBox-->
+                    <input class="e-input" type="text" v-model="location" placeholder="Enter Location or Coord." />
+                    <button type="button" class="button" @click="searchLocation">Go</button>
+                </div>
+                <div id="leafletmap" class="cell auto"></div>
+                <div>
+                    <table style="position:relative; left:1em;">
+                        <thead>
+                            <tr>
+                            <th width="100">Neighborhood Name</th>
+                            <th width="100">Incident Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td>TBD</td>
+                            <td>TBD</td>
+                            <td><input type="submit" value="Delete" class="button alert"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> 
     </div>
     <div v-if="view === 'new_incident'">
-        <!-- map component here -->
         <new_incident />
     </div>
     <div v-if="view === 'about'">
-        <!-- map component here -->
-        <AboutVue />
+        <about />
     </div>
 </template>
 
