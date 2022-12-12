@@ -124,6 +124,19 @@ export default {
                     }
                 });
             });
+        },
+        //Currently tied to the delete button just to test
+        getIncidents() {
+            $.ajax({
+                url: "http://localhost:8001/incidents",
+                type: 'GET',
+                success: function(data){ 
+                    alert(data);
+                },
+                error: function(data) {
+                    alert("whoops"); 
+                }
+            });
         }
     },
     mounted() {
@@ -183,7 +196,7 @@ export default {
                             <tr>
                             <td>TBD</td>
                             <td>TBD</td>
-                            <td><input type="submit" value="Delete" class="button alert"></td>
+                            <td><input type="submit" value="Delete" class="button alert" @click="getIncidents"></td>
                             </tr>
                         </tbody>
                     </table>

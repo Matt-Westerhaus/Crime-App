@@ -19,7 +19,7 @@ export default {
                 type: 'PUT',
                 data: {
                     case_number: this.case_number,
-                    date: this.date_time.toString().split("T")[0], //need to split this into date and time
+                    date: this.date_time.toString().split("T")[0], 
                     time: this.date_time.toString().split("T")[1],
                     code: this.code,
                     incident: this.incident,
@@ -31,8 +31,8 @@ export default {
                   alert("Added succesfully!");
                 },
                 error: function (xhr, thrownError) {
-                  alert(xhr.status);
-                  alert(thrownError);
+                    alert(xhr.status);
+                    alert(thrownError);
                 }
             });
 
