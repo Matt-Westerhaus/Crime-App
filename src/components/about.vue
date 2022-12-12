@@ -80,6 +80,7 @@ export default {
         </div>
         
         <div class="grid-x grid-padding-x">
+            <!-- Just a placeholder video-->
             <iframe  height="500" width="100%" src="https://www.youtube.com/embed/tgbNymZ7vqY" allowfullscreen="true">
             </iframe>
         </div>
