@@ -163,6 +163,22 @@ export default {
                     <button type="button" class="button" @click="searchLocation">Go</button>
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
+                <div>
+                    <table style="position:relative; left:1em;">
+                        <thead>
+                            <tr>
+                            <th width="100">Neighborhood Name</th>
+                            <th width="100">Incident Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td>TBD</td>
+                            <td>TBD</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
