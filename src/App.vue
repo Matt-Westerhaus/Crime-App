@@ -5,6 +5,9 @@ import new_incident from './components/new_incident.vue'
 export default {
     data() {
         return {
+            incidents: "",
+            neighborhoods: "",
+            codes_json: "",
             location: "",
             view: "map",
             codes: [],
@@ -125,19 +128,77 @@ export default {
                 });
             });
         },
-        //Currently tied to the delete button just to test
-        getIncidents() {
+        
+        getIncidents(limit=1000) {
+            let limit_string = "?limit=" + String(limit);
+            let url = "http://localhost:8001/incidents" + limit_string;
+            this.getJSON(url)
+            .then((result) => {
+                this.incidents = JSON.parse(JSON.stringify(result));
+            }).catch((error) => {
+                console.log("Error:", error);
+            });
+        },
+        getNeighborhoods() {
+            let url = "http://localhost:8001/neighborhoods"
+            this.getJSON(url)
+            .then((result) => {
+                this.neighborhoods = JSON.parse(JSON.stringify(result));
+            }).catch((error) => {
+                console.log("Error:", error);
+            });
+        },
+        getCodes() {
+            let url = "http://localhost:8001/codes"
+            this.getJSON(url)
+            .then((result) => {
+                this.codes_json = JSON.parse(JSON.stringify(result));
+            }).catch((error) => {
+                console.log("Error:", error);
+            });
+        },
+        getType(code) {
+            for (const value in this.codes_json) {
+                    
+                if (this.codes_json[value].code == code) {
+                    return this.codes_json[value].incident_type;
+                }
+            }
+        }, getNeighborhood(neighborhood_number) {
+            for (const value in this.neighborhoods) {  
+                if (this.neighborhoods[value].neighborhood_number == neighborhood_number) {
+                    return this.neighborhoods[value].neighborhood_name;
+                }
+            }
+        },
+        replaceX(block) {
+            let split_block = block.split(" ");
+            split_block[0] = split_block[0].replaceAll("X", 0);
+            let new_block = "";
+            for(let i=0; i<split_block.length; i++){
+                new_block += split_block[i] +' ';
+            }
+            return new_block;
+        },
+        delete_incident(case_number){
+            console.log(case_number);
             $.ajax({
-                url: "http://localhost:8001/incidents",
-                type: 'GET',
-                success: function(data){ 
-                    alert(data);
+                url: "http://localhost:8001/remove-incident",
+                contentType: 'application/json',
+                type: 'DELETE',
+                data: "{\"case_number\":"+String(case_number)+"}",
+                success: function(response) {
+                  // handle success
+                  location.reload();
                 },
-                error: function(data) {
-                    alert("whoops"); 
+                error: function(error) {
+                  // handle error
+                  console.log("whoops");
                 }
             });
+
         }
+
     },
     mounted() {
         this.leaflet.map = L.map("leafletmap").setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
@@ -157,6 +218,9 @@ export default {
         }).catch((error) => {
             console.log("Error:", error);
         });
+        this.getIncidents();
+        this.getNeighborhoods();
+        this.getCodes();
     },
     components: { 
         new_incident,
@@ -178,31 +242,46 @@ export default {
     <div v-if="view === 'map'">
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
-                <div style = "position:absolute; left:80px; top:20px;">
+                <div style = "float:left; left:80px; top:20px;">
                     <!--Input TextBox-->
                     <input class="e-input" type="text" v-model="location" placeholder="Enter Location or Coord." />
                     <button type="button" class="button" @click="searchLocation">Go</button>
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
-                <div>
-                    <table style="position:relative; left:1em;">
-                        <thead>
-                            <tr>
-                            <th width="100">Neighborhood Name</th>
-                            <th width="100">Incident Type</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <td>TBD</td>
-                            <td>TBD</td>
-                            <td><input type="submit" value="Delete" class="button alert" @click="getIncidents"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                
             </div>
         </div> 
+        <br/><br/>
+        <div class="center ">
+            <table style="left:1em;">
+                <thead>
+                    <tr>
+                    <th width="100px">Case Number</th>
+                    <th width="100px">Incident Type</th>
+                    <th width="100px">Incident</th>
+                    <th width="100px">Date</th>
+                    <th width="100px">Time</th>
+                    <th width="100px">Police Grid</th>
+                    <th width="100px">Neighborhood Name</th>
+                    <th width="150px">Block</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(value, key) in this.incidents" :key="key">
+                            <td>{{ value.case_number }}</td>
+                            <td v-text="getType(value.code)"></td> 
+                            <td>{{ value.incident }}</td>
+                            <td>{{ value.date }}</td>
+                            <td>{{ value.time }}</td>
+                            <td>{{ value.police_grid }}</td>
+                            <td v-text="getNeighborhood(value.neighborhood_number)"></td>
+                            <td v-text="replaceX(value.block)"></td>
+                            <td><input type="submit" value="Delete" class="button alert" @click="delete_incident(value.case_number)"></td>
+
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
     </div>
     <div v-if="view === 'new_incident'">
         <new_incident />
@@ -229,6 +308,11 @@ export default {
     border: solid 1px white;
     text-align: center;
     cursor: pointer;
+}
+.center {
+  margin: auto;
+  width: 65%;
+  border: 3px solid black;
 }
 </style>
 
