@@ -96,7 +96,7 @@ export default {
         <p></p>
         
     </div>
-    <div class="cell small-6 large-6 center"><img src ="image here" class="floatleft" alt="Picture of Nolan"/></div> 
+    <div class="cell small-6 large-6 center"><img src ="images/nolan_image.JPG" class="floatleft" alt="Picture of Nolan"/></div> 
 </div>
 <br/>
 
