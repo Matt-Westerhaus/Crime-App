@@ -252,7 +252,7 @@ export default {
             </div>
         </div> 
         <br/><br/>
-        <div class="center ">
+        <div class="center border ">
             <table style="left:1em;">
                 <thead>
                     <tr>
@@ -312,6 +312,8 @@ export default {
 .center {
   margin: auto;
   width: 65%;
+}
+.border {
   border: 3px solid black;
 }
 </style>
