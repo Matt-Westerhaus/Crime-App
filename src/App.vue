@@ -26,23 +26,23 @@ export default {
                     se: { lat: 44.883658, lng: -92.993787 }
                 },
                 neighborhood_markers: [
-                    { location: [44.942068, -93.020521], marker: null },
-                    { location: [44.977413, -93.025156], marker: null },
-                    { location: [44.931244, -93.079578], marker: null },
-                    { location: [44.956192, -93.060189], marker: null },
-                    { location: [44.978883, -93.068163], marker: null },
-                    { location: [44.975766, -93.113887], marker: null },
-                    { location: [44.959639, -93.121271], marker: null },
-                    { location: [44.9477, -93.128505], marker: null },
-                    { location: [44.930276, -93.119911], marker: null },
-                    { location: [44.982752, -93.14791], marker: null },
-                    { location: [44.963631, -93.167548], marker: null },
-                    { location: [44.973971, -93.197965], marker: null },
-                    { location: [44.949043, -93.178261], marker: null },
-                    { location: [44.934848, -93.176736], marker: null },
-                    { location: [44.913106, -93.170779], marker: null },
-                    { location: [44.937705, -93.136997], marker: null },
-                    { location: [44.949203, -93.093739], marker: null }
+                    { location: [44.942068, -93.020521], marker: null, onMap: true },
+                    { location: [44.977413, -93.025156], marker: null, onMap: true },
+                    { location: [44.931244, -93.079578], marker: null, onMap: true },
+                    { location: [44.956192, -93.060189], marker: null, onMap: true },
+                    { location: [44.978883, -93.068163], marker: null, onMap: true },
+                    { location: [44.975766, -93.113887], marker: null, onMap: true },
+                    { location: [44.959639, -93.121271], marker: null, onMap: true },
+                    { location: [44.9477, -93.128505], marker: null, onMap: true },
+                    { location: [44.930276, -93.119911], marker: null, onMap: true },
+                    { location: [44.982752, -93.14791], marker: null, onMap: true },
+                    { location: [44.963631, -93.167548], marker: null, onMap: true },
+                    { location: [44.973971, -93.197965], marker: null, onMap: true },
+                    { location: [44.949043, -93.178261], marker: null, onMap: true },
+                    { location: [44.934848, -93.176736], marker: null, onMap: true },
+                    { location: [44.913106, -93.170779], marker: null, onMap: true },
+                    { location: [44.937705, -93.136997], marker: null, onMap: true },
+                    { location: [44.949203, -93.093739], marker: null, onMap: true }
                 ]
             }
         };
@@ -196,7 +196,27 @@ export default {
                   console.log("whoops");
                 }
             });
-
+        },
+        getMapBoundaries() {
+            let bound = this.leaflet.map.getBounds();
+            let northWest = bound.getNorthWest();
+            let southEast = bound.getSouthEast();
+            // Loop through neighborhood marker to check if coordinate is out of bound.
+            // If out of bound, then set onMap boolean to false
+            for (let i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
+                    if (this.leaflet.neighborhood_markers[i].location[0] > northWest.lat) {
+                        this.leaflet.neighborhood_markers[i].onMap = false;
+                    }
+                    if (this.leaflet.neighborhood_markers[i].location[1] < northWest.lng) {
+                        this.leaflet.neighborhood_markers[i].onMap = false;
+                    }
+                    if (this.leaflet.neighborhood_markers[i].location[0] < southEast.lat) {
+                        this.leaflet.neighborhood_markers[i].onMap = false;
+                    }
+                    if (this.leaflet.neighborhood_markers[i].location[1] > southEast.lng) {
+                        this.leaflet.neighborhood_markers[i].onMap = false;
+                    }
+            }
         }
 
     },
