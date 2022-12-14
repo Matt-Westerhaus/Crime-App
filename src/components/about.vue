@@ -58,6 +58,10 @@ export default {
                 <td>This is an api that we made earlier in the semester using public data on crime in St. Paul Minnesota. We used it to populate our map and table of 
                     incident results with their filters. We also used it when deleting an incident or submitting a new one.</td>
               </tr>
+              <tr>
+                <td>Interesting Findings:</td>
+                <td></td>
+              </tr>
 
             </table>
             <!-- What else???-->
@@ -93,7 +97,12 @@ export default {
 
     <div class="cell center small-6 large-6 ">
         <h3>Nolan Foy</h3>
-        <p></p>
+        <p>Hi, I am Nolan and I am a senior majoring in Computer Science at the University of St. Thomas. I love playing sports, playing video games, going out with my
+            friends, and watching the Vikings. I am from Andover, MN just 30 minutes north of here. 
+        </p>
+        <p>I will be graduating in December and will start working with Optum in late January in their Technology Development Program after I interned with them over the summer. 
+            Hopefully I will be seeing my fellow teammate Matt there, as we are both going down the same route.
+        </p>
         
     </div>
     <div class="cell small-6 large-6 center"><img src ="images/nolan_image.JPG" class="floatleft" alt="Picture of Nolan"/></div> 
