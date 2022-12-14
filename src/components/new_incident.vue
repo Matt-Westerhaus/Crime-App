@@ -28,19 +28,24 @@ export default {
             });
         },
         submitForm() {
+
+
+            let date = this.date_time.toString().split("T")[0];
+            let time = this.date_time.toString().split("T")[1];
+            console.log("date: " + date);
+            console.log("time: "+ time);
             $.ajax({
-                url: 'http://localhost:8001/new-incidents',
+                url: 'http://localhost:8001/new-incident',
                 type: 'PUT',
-                data: {
-                    case_number: this.case_number,
-                    date: this.date_time.toString().split("T")[0], 
-                    time: this.date_time.toString().split("T")[1],
-                    code: this.code,
-                    incident: this.incident,
-                    police_grid: this.police_grid,
-                    neighborhood_number: this.neighborhood_number,
-                    block: this.block
-                },
+                contentType: 'application/json',
+                data:"{\"case_number\":\""+ this.case_number+"\",   \
+                \"date\":\""+ date+"\",    \
+                \"time\":\""+ time+"\",      \
+                \"code\":\""+ this.code+"\",                 \
+                \"incident\":\""+ this.incident+"\",\
+                \"police_grid\":\""+ this.police_grid+"\",         \
+                \"neighborhood_number\":\""+ this.neighborhood_number+"\",  \
+                \"block\":\""+ this.block+"\"}",
                 success: function(response) {
                   alert("Added succesfully!");
                 },
@@ -49,22 +54,6 @@ export default {
                     alert(thrownError);
                 }
             });
-            // let req = {
-            //         url: 'https://localhost8001/new-incident/' + this.case_number + this.date_time + this.code + this.incident + this.police_grid + this.neighborhood_number + this.block,
-            //         dataType: 'json',
-                    
-            //         success: function(response) {
-            //             alert("added successfully");
-            //         },
-            //         error: function (xhr, thrownError) {
-            //             alert(xhr.status);
-            //             alert(thrownError);
-            //             alert("NOPE");
-            //         }
-            //     }
-            //     $.ajax(req);
-            // let url= 'https://localhost8001/new-incident/' + this.case_number + this.date_time + this.code + this.incident + this.police_grid + this.neighborhood_number + this.block;
-            // getJSON(url);
 
         }
     }
@@ -83,7 +72,7 @@ export default {
             <br>
             <form class="medium-3 cell" id="formSubmit" >
                 <label for="case_number">Case Number:</label>
-                <input type="text" id="case_number" v-model="case_number" required>
+                <input required type="text" id="case_number" v-model="case_number">
                 <label for="date_time">Date & Time:</label>
                 <input type="datetime-local" id="date_time" v-model="date_time" required>
                 <label for="code">Code:</label>
@@ -96,10 +85,7 @@ export default {
                 <input type="number" id="neighborhood_number" v-model="neighborhood_number" required>
                 <label for="block">Block:</label>
                 <input type="text" id="block" v-model="block" required>
-                
-
-
-                <input type="button" class="button success" value="Submit" @click="submitForm()">
+                <input type="submit" class="button success" @click="submitForm()">
 
             </form>
         </div>
