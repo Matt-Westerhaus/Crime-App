@@ -128,34 +128,22 @@ export default {
                 });
             });
         },
-        
-        getIncidents(limit=1000) {
-            let limit_string = "?limit=" + String(limit);
-            let url = "http://localhost:8001/incidents" + limit_string;
-            this.getJSON(url)
-            .then((result) => {
-                this.incidents = JSON.parse(JSON.stringify(result));
-            }).catch((error) => {
+        getTableInfo(){
+            let incident_url = "http://localhost:8001/incidents?limit=1000";
+            let neighborhood_url = "http://localhost:8001/neighborhoods";
+            let code_url = "http://localhost:8001/codes"
+            Promise.all([this.getJSON(incident_url),this.getJSON(neighborhood_url),this.getJSON(code_url)])
+            .then((results) => {
+                this.incidents = JSON.parse(JSON.stringify(results[0]));
+                this.neighborhoods = JSON.parse(JSON.stringify(results[1]));
+                this.codes_json = JSON.parse(JSON.stringify(results[2]));
+
+
+            })
+            .catch((error) =>{
+                alert("Something went wrong");
                 console.log("Error:", error);
-            });
-        },
-        getNeighborhoods() {
-            let url = "http://localhost:8001/neighborhoods"
-            this.getJSON(url)
-            .then((result) => {
-                this.neighborhoods = JSON.parse(JSON.stringify(result));
-            }).catch((error) => {
-                console.log("Error:", error);
-            });
-        },
-        getCodes() {
-            let url = "http://localhost:8001/codes"
-            this.getJSON(url)
-            .then((result) => {
-                this.codes_json = JSON.parse(JSON.stringify(result));
-            }).catch((error) => {
-                console.log("Error:", error);
-            });
+            })
         },
         getType(code) {
             for (const value in this.codes_json) {
@@ -164,7 +152,8 @@ export default {
                     return this.codes_json[value].incident_type;
                 }
             }
-        }, getNeighborhood(neighborhood_number) {
+        }, 
+        getNeighborhood(neighborhood_number) {
             for (const value in this.neighborhoods) {  
                 if (this.neighborhoods[value].neighborhood_number == neighborhood_number) {
                     return this.neighborhoods[value].neighborhood_name;
@@ -238,9 +227,10 @@ export default {
         }).catch((error) => {
             console.log("Error:", error);
         });
-        this.getIncidents();
-        this.getNeighborhoods();
-        this.getCodes();
+        this.getTableInfo();
+        // this.getIncidents();
+        // this.getNeighborhoods();
+        // this.getCodes();
     },
     components: { 
         new_incident,
