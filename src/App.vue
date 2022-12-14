@@ -228,9 +228,7 @@ export default {
             console.log("Error:", error);
         });
         this.getTableInfo();
-        // this.getIncidents();
-        // this.getNeighborhoods();
-        // this.getCodes();
+        this.drawMarker();
     },
     components: { 
         new_incident,

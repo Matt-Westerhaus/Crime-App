@@ -123,7 +123,7 @@ export default {
     
     <div class="cell center small-6 large-6 ">
         <h3>Matt Westerhaus</h3>
-        <p>Hello, I am a senior majoring in Computer Science and minoring in Catholic Studies here at St Thomas. I enjoy being outside playing sports, camping, 
+        <p>Hello, I am a senior majoring in Computer Science and minoring in Catholic Studies here at St Thomas. I enjoy being outside playing sports, cards, camping, 
             or just exploring. I also enjoy playing video games, listening to music or just hanging out with people. I am from Chanhassen, MN which is about 30 
             minutes southwest of St. Thomas. 
         </p>
