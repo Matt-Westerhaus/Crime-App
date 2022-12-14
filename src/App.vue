@@ -249,7 +249,7 @@ export default {
         </div>
     </div>
 
-    <div v-if="view === 'map'">
+    <div v-show="view === 'map'">
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
                 <div style = "float:left; left:80px; top:20px;">
