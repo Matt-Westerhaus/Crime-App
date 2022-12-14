@@ -5,10 +5,10 @@ export default {
         return {
             case_number: "",
             date_time: "",
-            code: 0,
+            code:"" ,
             incident: "",
-            police_grid: 0,
-            neighborhood_number: 0,
+            police_grid: "",
+            neighborhood_number: "",
             block: ""
         }
     },
@@ -68,24 +68,31 @@ export default {
     <div class="grid-container">
         <h1 class="cell auto">New Incident Form</h1>
         <div class="grid-x grid-padding-x">
-            
             <br>
-            <form class="medium-3 cell" id="formSubmit" >
+            <form class="medium-3 cell" id="formSubmit" @submit="submitForm" >
+                
                 <label for="case_number">Case Number:</label>
-                <input required type="text" id="case_number" v-model="case_number">
+                <input required type="text" id="case_number" v-model="case_number"/>
+
                 <label for="date_time">Date & Time:</label>
-                <input type="datetime-local" id="date_time" v-model="date_time" required>
+                <input type="datetime-local" id="date_time" v-model="date_time" required/>
+
                 <label for="code">Code:</label>
-                <input type="number" id="code" v-model="code" required>
+                <input type="number" id="code" v-model="code" required/>
+
                 <label for="incident">Incident:</label>
-                <input type="text" id="incident" v-model="incident" required>
+                <input type="text" id="incident" v-model="incident" required/>
+
                 <label for="police_grid">Police Grid:</label>
-                <input type="number" id="police_grid" v-model="police_grid" required>
+                <input type="number" id="police_grid" v-model="police_grid" required/>
+
                 <label for="neighborhood_number">Neighborhood Number:</label>
-                <input type="number" id="neighborhood_number" v-model="neighborhood_number" required>
+                <input type="number" id="neighborhood_number" v-model="neighborhood_number" required/>
+
                 <label for="block">Block:</label>
-                <input type="text" id="block" v-model="block" required>
-                <input type="submit" class="button success" @click="submitForm()">
+                <input type="text" id="block" v-model="block" required/>
+
+                <input type="submit" class="button success"/>
 
             </form>
         </div>
