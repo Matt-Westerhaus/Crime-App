@@ -11,3 +11,4 @@ function initializeApp() {
 }
 
 window.initializeApp = initializeApp;
+
