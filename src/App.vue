@@ -26,33 +26,32 @@ export default {
                     se: { lat: 44.883658, lng: -92.993787 }
                 },
                 neighborhood_markers: [
-                    { location: [44.942068, -93.020521], marker: null, onMap: true },
-                    { location: [44.977413, -93.025156], marker: null, onMap: true },
-                    { location: [44.931244, -93.079578], marker: null, onMap: true },
-                    { location: [44.956192, -93.060189], marker: null, onMap: true },
-                    { location: [44.978883, -93.068163], marker: null, onMap: true },
-                    { location: [44.975766, -93.113887], marker: null, onMap: true },
-                    { location: [44.959639, -93.121271], marker: null, onMap: true },
-                    { location: [44.9477, -93.128505], marker: null, onMap: true },
-                    { location: [44.930276, -93.119911], marker: null, onMap: true },
-                    { location: [44.982752, -93.14791], marker: null, onMap: true },
-                    { location: [44.963631, -93.167548], marker: null, onMap: true },
-                    { location: [44.973971, -93.197965], marker: null, onMap: true },
-                    { location: [44.949043, -93.178261], marker: null, onMap: true },
-                    { location: [44.934848, -93.176736], marker: null, onMap: true },
-                    { location: [44.913106, -93.170779], marker: null, onMap: true },
-                    { location: [44.937705, -93.136997], marker: null, onMap: true },
-                    { location: [44.949203, -93.093739], marker: null, onMap: true }
+                    { location: [44.942068, -93.020521], marker: null, onMap: true, crimeCount: 2},
+                    { location: [44.977413, -93.025156], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.931244, -93.079578], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.956192, -93.060189], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.978883, -93.068163], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.959639, -93.121271], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.9477, -93.128505],   marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.930276, -93.119911], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.982752, -93.14791],  marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.963631, -93.167548], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.973971, -93.197965], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.949043, -93.178261], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.934848, -93.176736], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.913106, -93.170779], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.937705, -93.136997], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.949203, -93.093739], marker: null, onMap: true, crimeCount: 0}
                 ]
             }
         };
     },
     methods: {
         drawMarker() {
-            let i = 0;
-            for (i; i < this.leaflet.neighborhood_markers.length; i++) {
+            for (let i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
                 // Set temp marker to have neighbor coordinate
                 let temp_marker = new L.Marker([this.leaflet.neighborhood_markers[i].location[0], this.leaflet.neighborhood_markers[i].location[1]]);
+                temp_marker.bindPopup("Crime commited in this neighborhood is: " + this.leaflet.neighborhood_markers[i].crimeCount);
                 // Set neighbor marker to be temp marker
                 this.leaflet.neighborhood_markers[i].marker = temp_marker;
                 // Add marker to map
@@ -65,7 +64,7 @@ export default {
             url += this.location + "'&format=json&limit=1";
             this.getJSON(url)
                 .then((data) => {
-                // Clamp coordinate if lat or lon is out of bbound
+                // Clamp coordinate if lat or lon is out of bound
                 if (data[0].lat < 44.883658) {
                     data[0].lat = 44.883658;
                 }
@@ -134,11 +133,9 @@ export default {
             let code_url = "http://localhost:8001/codes"
             Promise.all([this.getJSON(incident_url),this.getJSON(neighborhood_url),this.getJSON(code_url)])
             .then((results) => {
-                this.incidents = JSON.parse(JSON.stringify(results[0]));
+                this.incidents = JSON.parse(JSON.stringify(results[0]));            
                 this.neighborhoods = JSON.parse(JSON.stringify(results[1]));
                 this.codes_json = JSON.parse(JSON.stringify(results[2]));
-
-
             })
             .catch((error) =>{
                 alert("Something went wrong");
@@ -285,7 +282,6 @@ export default {
                             <td v-text="getNeighborhood(value.neighborhood_number)"></td>
                             <td v-text="replaceX(value.block)"></td>
                             <td><input type="submit" value="Delete" class="button alert" @click="delete_incident(value.case_number)"></td>
-
                     </tr> 
                 </tbody>
             </table>
