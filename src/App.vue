@@ -41,7 +41,8 @@ export default {
                     { location: [44.934848, -93.176736], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.913106, -93.170779], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.937705, -93.136997], marker: null, onMap: true, crimeCount: 0},
-                    { location: [44.949203, -93.093739], marker: null, onMap: true, crimeCount: 0}
+                    { location: [44.949203, -93.093739], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.977525, -93.1064912], marker: null, onMap: true, crimeCount: 0}
                 ]
             }
         };
