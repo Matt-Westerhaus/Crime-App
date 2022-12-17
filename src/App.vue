@@ -305,7 +305,7 @@ export default {
                 <div style = "float:left; left:80px; top:20px; padding-right: 50px;">
                     <!--Input TextBox-->
                     <input class="e-input" id="input-box" type="text" v-model="location" placeholder="Enter Location or Coord.">
-                    <button type="button" class="button" @click="countCrimes">Go</button><br>
+                    <button type="button" class="button" @click="searchLocation">Go</button><br>
                     
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
