@@ -14,7 +14,7 @@ export default {
             codes: [],
             neighborhoods: [],
             incidents: [],
-            crimesCounter: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            crimesCounter: [],
             leaflet: {
                 map: null,
                 center: {
@@ -37,7 +37,7 @@ export default {
                     { location: [44.959639, -93.121271], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.947700, -93.128505], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.930276, -93.119911], marker: null, onMap: true, crimeCount: 0},
-                    { location: [44.982752, -93.14791],  marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.982752, -93.147910], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.963631, -93.167548], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.973971, -93.197965], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.949043, -93.178261], marker: null, onMap: true, crimeCount: 0},
@@ -54,7 +54,7 @@ export default {
             for (let i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
                 // Set temp marker to have neighbor coordinate
                 let temp_marker = new L.Marker([this.leaflet.neighborhood_markers[i].location[0], this.leaflet.neighborhood_markers[i].location[1]]);
-                temp_marker.bindPopup("The number of crimes commited in this neighborhood is: " + this.leaflet.neighborhood_markers[i].crimeCount);
+                temp_marker.bindPopup("The number of crimes commited in this neighborhood is: " + this.crimesCounter[i]);
                 // Set neighbor marker to be temp marker
                 this.leaflet.neighborhood_markers[i].marker = temp_marker;
                 // Add marker to map
@@ -139,6 +139,8 @@ export default {
                 this.incidents = JSON.parse(JSON.stringify(results[0]));            
                 this.neighborhoods = JSON.parse(JSON.stringify(results[1]));
                 this.codes_json = JSON.parse(JSON.stringify(results[2]));
+                this.countCrimes();
+                this.drawMarker();
             })
             .catch((error) =>{
                 alert("Something went wrong");
@@ -205,9 +207,25 @@ export default {
                     success: this.latLongData
                 }
             $.ajax(req);
-            
-        
-
+        },
+        countCrimes() {
+            this.crimesCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            this.incidents.forEach((incident) => {
+                this.crimesCounter[incident.neighborhood_number-1] = this.crimesCounter[incident.neighborhood_number-1] + 1;
+            });
+        },
+        drawCrimeMarkers() {
+            this.incidents.forEach((incident) => {
+                let incident_location = [];
+                indident_location[0] = incident.block;
+                incident_location[1] = incident.block;
+                let temp_marker = new L.Marker([incident_location[0], incident_location[1]]);
+                temp_marker.bindPopup("The number of crimes commited in this neighborhood is: " + this.crimesCounter[i]);
+                // Set neighbor marker to be temp marker
+                this.leaflet.neighborhood_markers[i].marker = temp_marker;
+                // Add marker to map
+                temp_marker.addTo(this.leaflet.map);
+            });
         },
         latLongData(data) {
             console.log(data);
@@ -259,7 +277,6 @@ export default {
             console.log("Error:", error);
         });
         this.getTableInfo();
-        this.drawMarker();
         this.leaflet.map.on('mouseup', this.updateTextBox);
         this.leaflet.map.on('zoom', this.updateTextBox);
     },
@@ -288,7 +305,7 @@ export default {
                 <div style = "float:left; left:80px; top:20px; padding-right: 50px;">
                     <!--Input TextBox-->
                     <input class="e-input" id="input-box" type="text" v-model="location" placeholder="Enter Location or Coord.">
-                    <button type="button" class="button" @click="searchLocation">Go</button><br>
+                    <button type="button" class="button" @click="countCrimes">Go</button><br>
                     
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
