@@ -14,6 +14,7 @@ export default {
             codes: [],
             neighborhoods: [],
             incidents: [],
+            crimesCounter: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             leaflet: {
                 map: null,
                 center: {
@@ -32,8 +33,9 @@ export default {
                     { location: [44.931244, -93.079578], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.956192, -93.060189], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.978883, -93.068163], marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.977525, -93.106491], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.959639, -93.121271], marker: null, onMap: true, crimeCount: 0},
-                    { location: [44.9477, -93.128505],   marker: null, onMap: true, crimeCount: 0},
+                    { location: [44.947700, -93.128505], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.930276, -93.119911], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.982752, -93.14791],  marker: null, onMap: true, crimeCount: 0},
                     { location: [44.963631, -93.167548], marker: null, onMap: true, crimeCount: 0},
@@ -42,8 +44,7 @@ export default {
                     { location: [44.934848, -93.176736], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.913106, -93.170779], marker: null, onMap: true, crimeCount: 0},
                     { location: [44.937705, -93.136997], marker: null, onMap: true, crimeCount: 0},
-                    { location: [44.949203, -93.093739], marker: null, onMap: true, crimeCount: 0},
-                    { location: [44.977525, -93.1064912], marker: null, onMap: true, crimeCount: 0}
+                    { location: [44.949203, -93.093739], marker: null, onMap: true, crimeCount: 0}
                 ]
             }
         };
@@ -155,13 +156,7 @@ export default {
         getNeighborhood(neighborhood_number) {
             for (const value in this.neighborhoods) {  
                 if (this.neighborhoods[value].neighborhood_number == neighborhood_number) {
-                    let correct_neighborhood = this.neighborhoods[value].neighborhood_name
-                    // we can probably incrememnt our neighborhood crime amount here 
-                    // put names in markers as a variable
-                    // loop through markers/ check names
-                    // if correct_neighborhood == current_marker.name
-                        // current_marker.crimeCount++
-                    return neighborhood_value;
+                    return this.neighborhoods[value].neighborhood_name;
                 }
             }
         },
