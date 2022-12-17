@@ -260,6 +260,7 @@ export default {
         this.getTableInfo();
         this.drawMarker();
         this.leaflet.map.on('mouseup', this.updateTextBox);
+        this.leaflet.map.on('zoom', this.updateTextBox);
     },
     
     components: { 
