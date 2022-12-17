@@ -5,6 +5,7 @@ import new_incident from './components/new_incident.vue'
 export default {
     data() {
         return {
+            textbox: "",
             incidents: "",
             neighborhoods: "",
             codes_json: "",
@@ -184,6 +185,36 @@ export default {
                 }
             });
         },
+        updateTextBox() {
+            let coords = this.leaflet.map.getBounds();
+            let centerCoords = coords.getCenter();
+            let url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=<1value>&lon=<2value>';
+            // on mouse up thing - map.on('mouseup,' onMouseUp)
+            
+            // map.on('mouseup', function(e) {
+
+            // });
+            
+            let newUrl = url.replace('<1value>', centerCoords.lat);
+            newUrl = newUrl.replace('<2value>', centerCoords.lng);
+            console.log(newUrl);
+            let req = {
+                    url: newUrl,
+                    dataType: 'json',
+                    success: this.latLongData
+                }
+            $.ajax(req);
+            
+        
+
+        },
+        latLongData(data) {
+            console.log(data);
+            this.textbox = data.display_name;
+            document.getElementById("input-box").value = this.textbox;
+            
+            
+        },
         getMapBoundaries() {
             let bound = this.leaflet.map.getBounds();
             let northWest = bound.getNorthWest();
@@ -215,6 +246,7 @@ export default {
             maxZoom: 18
         }).addTo(this.leaflet.map);
         this.leaflet.map.setMaxBounds([[44.883658, -93.217977], [45.008206, -92.993787]]);
+        
         let district_boundary = new L.geoJson();
         district_boundary.addTo(this.leaflet.map);
         this.getJSON("/data/StPaulDistrictCouncil.geojson").then((result) => {
@@ -227,11 +259,14 @@ export default {
         });
         this.getTableInfo();
         this.drawMarker();
+        this.leaflet.map.on('mouseup', this.updateTextBox);
     },
+    
     components: { 
         new_incident,
         about
      }
+     
 }
 </script>
 
@@ -250,8 +285,9 @@ export default {
             <div class="grid-x grid-padding-x">
                 <div style = "float:left; left:80px; top:20px;">
                     <!--Input TextBox-->
-                    <input class="e-input" type="text" v-model="location" placeholder="Enter Location or Coord." />
-                    <button type="button" class="button" @click="searchLocation">Go</button>
+                    <input class="e-input" id="input-box" type="text" v-model="location" placeholder="Enter Location or Coord.">
+                    <button type="button" class="button" @click="searchLocation">Go</button><br>
+                    
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
                 
