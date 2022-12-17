@@ -52,7 +52,7 @@ export default {
             for (let i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
                 // Set temp marker to have neighbor coordinate
                 let temp_marker = new L.Marker([this.leaflet.neighborhood_markers[i].location[0], this.leaflet.neighborhood_markers[i].location[1]]);
-                temp_marker.bindPopup("Crime commited in this neighborhood is: " + this.leaflet.neighborhood_markers[i].crimeCount);
+                temp_marker.bindPopup("The number of crimes commited in this neighborhood is: " + this.leaflet.neighborhood_markers[i].crimeCount);
                 // Set neighbor marker to be temp marker
                 this.leaflet.neighborhood_markers[i].marker = temp_marker;
                 // Add marker to map
