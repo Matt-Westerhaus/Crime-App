@@ -155,7 +155,13 @@ export default {
         getNeighborhood(neighborhood_number) {
             for (const value in this.neighborhoods) {  
                 if (this.neighborhoods[value].neighborhood_number == neighborhood_number) {
-                    return this.neighborhoods[value].neighborhood_name;
+                    let correct_neighborhood = this.neighborhoods[value].neighborhood_name
+                    // we can probably incrememnt our neighborhood crime amount here 
+                    // put names in markers as a variable
+                    // loop through markers/ check names
+                    // if correct_neighborhood == current_marker.name
+                        // current_marker.crimeCount++
+                    return neighborhood_value;
                 }
             }
         },
@@ -284,7 +290,7 @@ export default {
     <div v-show="view === 'map'">
         <div class="grid-container">
             <div class="grid-x grid-padding-x">
-                <div style = "float:left; left:80px; top:20px;">
+                <div style = "float:left; left:80px; top:20px; padding-right: 50px;">
                     <!--Input TextBox-->
                     <input class="e-input" id="input-box" type="text" v-model="location" placeholder="Enter Location or Coord.">
                     <button type="button" class="button" @click="searchLocation">Go</button><br>
