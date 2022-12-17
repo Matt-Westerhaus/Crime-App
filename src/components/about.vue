@@ -114,8 +114,16 @@ export default {
     
     <div class="cell small-12 large-6 center ">
     <h3>Owen Xiong</h3>
+    <p>Hello, I'm Owen Xiong and I am a senior this year majoring in Commputer Science. I am first generation college student and also the oldest child of all my siblings.
+        I enjoy playing video games, working out, hanging out with friends, and volleyball. An interesting factt about me is that I was born in Thailand and my family migrated
+        to the United States when I was about 3-4 years old. 
+    </p>
+    <p>
+        After graduation, I will be starting work at Best Buy Headquarter in January 2023 with the Database team at Best Buy.
+         I believe I will be working most of weekdays remote, but I am excited to be working with my team again.
+    </p>
     </div>
-    <div class="cell small-12 large-6 center"><img src ="image here" class="floatleft" alt="Picture of Owen"/></div> 
+    <div class="cell small-12 large-6 center"><img src ="images/owen.jpeg" class="floatleft" alt="Picture of Owen"/></div> 
 </div>
 <br/>
 
