@@ -200,7 +200,6 @@ export default {
             
             let newUrl = url.replace('<1value>', centerCoords.lat);
             newUrl = newUrl.replace('<2value>', centerCoords.lng);
-            console.log(newUrl);
             let req = {
                     url: newUrl,
                     dataType: 'json',
@@ -228,7 +227,6 @@ export default {
             });
         },
         latLongData(data) {
-            console.log(data);
             this.textbox = data.display_name;
             document.getElementById("input-box").value = this.textbox;
             
