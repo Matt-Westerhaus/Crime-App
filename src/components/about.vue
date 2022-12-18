@@ -87,6 +87,20 @@ export default {
         <br/>
         <div class="grid-x grid-padding-x">
             <h2 class="cell text-center">Interesting Findings</h2>
+            <p>1. The first thing that I found interesting (which I wouldn't have expected to find interesting) was the way that the adresses of the crimes were
+                input. Just blocks and neighborhoods along with the police grid that it took place in. I wouldn't expect that the neighborhood would be an important
+                piece of information. <br>
+                2. Another that was interesting, but more upsetting, was when I looked at the crimes in my neighborhood. Unfotunately, a lot of the crimes were theft. 
+                Lots of auto theft, burglary, and shoplifting going on in Union Park.<br>
+                3. I was also surprised to see not as many crimes in Midway as I expected just because of what you hear about it. In general, the more west you go,
+                 the less crime there is.<br>
+                4. It was also surprising to see the second fewest amount of crimes occurred in the largest neighborhood in terms of area. It is larger because of Pig Eyes Regional Park 
+                and the large lake that resides in it, but it was surprising nonetheless.<br>
+                5. It was nice to see that Como Park had the least amount of crimes. I was hoping there wouldn't be crimes at the zoo, that would be sad for all the animals there.<br>
+                6. The last thing that I found that was surprising was about the functionality of the program and how nomination works. For the most part, when the center of the 
+                map changed and the search bar changed with it, there would just be obscure adresses and streets. However, there were spots where it would identify landmarks or 
+                other specific buildings and sites. This was cool to see that they were recognizing these things sometimes.
+            </p>
         </div>
     </div>
 
