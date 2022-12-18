@@ -80,6 +80,7 @@ export default {
                 if (data[0].lon > -92.993787) {
                     data[0].lon = -92.993787;
                 }
+                console.log(data);
                 // Zoom to search location
                 this.leaflet.map.flyTo(new L.LatLng(data[0].lat, data[0].lon), 18);
                 // Creating a marker
@@ -88,6 +89,7 @@ export default {
                 marker.addTo(this.leaflet.map);
             })
                 .catch((err) => {
+                    console.log('did not find')
             });
         },
         viewMap(event) {
@@ -254,9 +256,28 @@ export default {
                         this.leaflet.neighborhood_markers[i].onMap = false;
                     }
             }
-        }
+        },
+        selectedCrimeMarker(loc) {
+       
+        
+            let numberPart = loc.split(' ');
+            numberPart[0] = numberPart[0].replaceAll('X', '0');
+            console.log(numberPart);
+            let newLocation = '';
+            let i;
+            for (i = 0; i < numberPart.length; i++) {
+                newLocation = newLocation + ' ' + numberPart[i];
+            }
+            console.log(newLocation);
+            let url = "https://nominatim.openstreetmap.org/?street='";
+            url = url + newLocation + "'&format=json&limit=1";
+            this.location = newLocation + 'St. Paul';
+            this.searchLocation()
 
     },
+
+    },
+    
     mounted() {
         this.leaflet.map = L.map("leafletmap").setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -279,6 +300,7 @@ export default {
         this.getTableInfo();
         this.leaflet.map.on('mouseup', this.updateTextBox);
         this.leaflet.map.on('zoom', this.updateTextBox);
+
     },
     
     components: { 
@@ -305,7 +327,7 @@ export default {
                 <div style = "float:left; left:80px; top:20px; padding-right: 50px;">
                     <!--Input TextBox-->
                     <input class="e-input" id="input-box" type="text" v-model="location" placeholder="Enter Location or Coord.">
-                    <button type="button" class="button" @click="countCrimes">Go</button><br>
+                    <button type="button" class="button" @click="searchLocation">Go</button><br>
                     
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
@@ -328,8 +350,9 @@ export default {
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- <p>{{ this.incidents[1] }}</p> -->
                     <tr v-for="(value, key) in this.incidents" :key="key">
-                            <td>{{ value.case_number }}</td>
+                            <button type="button" class="button" @click="selectedCrimeMarker(value.block)">Find Location</button>
                             <td v-text="getType(value.code)"></td> 
                             <td>{{ value.incident }}</td>
                             <td>{{ value.date }}</td>
