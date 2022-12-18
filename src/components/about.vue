@@ -58,10 +58,6 @@ export default {
                 <td>This is an api that we made earlier in the semester using public data on crime in St. Paul Minnesota. We used it to populate our map and table of 
                     incident results with their filters. We also used it when deleting an incident or submitting a new one.</td>
               </tr>
-              <tr>
-                <td>Interesting Findings:</td>
-                <td></td>
-              </tr>
 
             </table>
             <!-- What else???-->

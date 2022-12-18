@@ -463,31 +463,31 @@ export default {
             <table style="left:1em;">
                 <thead style="background: #6699CC">
                     <tr >
-                    <th width="100px">Find Location</th>
-                    <th width="100px">Case Number</th>
-                    <th width="100px">Incident Type</th>
-                    <th width="100px">Incident</th>
-                    <th width="100px">Date</th>
-                    <th width="100px">Time</th>
-                    <th width="100px">Police Grid</th>
-                    <th width="100px">Neighborhood Name</th>
-                    <th width="150px">Block</th>
-                    <th></th>
+                    <th width="100px" class="border">Find Location</th>
+                    <th width="100px" class="border">Case Number</th>
+                    <th width="100px" class="border">Incident Type</th>
+                    <th width="100px" class="border">Incident</th>
+                    <th width="100px" class="border">Date</th>
+                    <th width="100px" class="border">Time</th>
+                    <th width="100px" class="border">Police Grid</th>
+                    <th width="100px" class="border">Neighborhood Name</th>
+                    <th width="150px" class="border">Block</th>
+                    <th class="border"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- <p>{{ this.incidents[1] }}</p> -->
                     <tr v-for="(value, key) in this.incidents" :key="key" v-bind:style="rowStyles(value.code)">
-                            <button type="button" class="button" @click="selectedCrimeMarker(value)" style="margin-top: 15px">Find Location</button>
-                            <td>{{ value.case_number }}</td>
-                            <td v-text="getType(value.code)"></td> 
-                            <td>{{ value.incident }}</td>
-                            <td>{{ value.date }}</td>
-                            <td>{{ value.time }}</td>
-                            <td>{{ value.police_grid }}</td>
-                            <td v-text="getNeighborhood(value.neighborhood_number)"></td>
-                            <td v-text="replaceX(value.block)"></td>
-                            <td><input type="submit" value="Delete" class="button alert" @click="delete_incident(value.case_number)"></td>
+                            <td class="border"> <button type="button" class="button" @click="selectedCrimeMarker(value)">Find Location</button></td>
+                            <td class="border">{{ value.case_number }}</td>
+                            <td class="border" v-text="getType(value.code)"></td> 
+                            <td class="border">{{ value.incident }}</td>
+                            <td class="border">{{ value.date }}</td>
+                            <td class="border">{{ value.time }}</td>
+                            <td class="border">{{ value.police_grid }}</td>
+                            <td class="border" v-text="getNeighborhood(value.neighborhood_number)"></td>
+                            <td class="border" v-text="replaceX(value.block)"></td>
+                            <td class="border"><input type="submit" value="Delete" class="button alert" @click="delete_incident(value.case_number)"></td>
                     </tr> 
                 </tbody>
             </table>
@@ -524,7 +524,7 @@ export default {
   width: 65%;
 }
 .border {
-  border: 3px solid black;
+    border: 2px solid black
 }
 </style>
 
