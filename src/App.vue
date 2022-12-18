@@ -94,7 +94,7 @@ export default {
                 }); 
         },
         // TODO: If they search wit lat/lon instead of a street/place name
-        searchLocationStreet() {
+        searchLocationStreet(fromCrime, information) {
             let street_url = "https://nominatim.openstreetmap.org/?street='";
             let format_limit = "'&format=json&limit=1"
 
@@ -115,21 +115,32 @@ export default {
                     data[0].lon = -92.993787;
                 }
                 console.log(data);
+                let marker;
+                console.log(this.location);
+                // Zoom to search location
+                if (fromCrime == 'true') {
+                    var greenIcon = L.icon({
+                        iconUrl: '/images/green_icon.png',
+                        iconSize:     [38, 95],
+                        popupAnchor:  [-3, -76],
+                        iconAnchor:   [22, 94]
+                    });
+                    // Creating a marker
+                    marker = new L.Marker([data[0].lat, data[0].lon], {icon: greenIcon});
+                    marker.bindPopup("Date: " + information.date + ' | Time: ' + information.time + ' | Incident: ' + information.incident);
+                } else {
+                marker = new L.Marker([data[0].lat, data[0].lon]);
+                    
+                }
                 // Zoom to search location
                 this.leaflet.map.flyTo(new L.LatLng(data[0].lat, data[0].lon), 18);
                 // Creating a marker
-                let marker = new L.Marker([data[0].lat, data[0].lon]);
                 // Adding marker to the map
                 marker.addTo(this.leaflet.map);
             })
                 .catch((err) => {
-<<<<<<< HEAD
                     this.searchLocationLatLon();
             }); 
-=======
-                    console.log('did not find')
-            });
->>>>>>> 65520e736a1b306bb96a5c14280db779555a51a6
         },
         viewMap(event) {
             this.view = "map";
@@ -289,10 +300,11 @@ export default {
                     }
             }
         },
-        selectedCrimeMarker(loc) {
-       
+        selectedCrimeMarker(values) {
+            
+            let block = values.block;
+            let numberPart = block.split(' ');
         
-            let numberPart = loc.split(' ');
             numberPart[0] = numberPart[0].replaceAll('X', '0');
             console.log(numberPart);
             let newLocation = '';
@@ -303,8 +315,12 @@ export default {
             console.log(newLocation);
             let url = "https://nominatim.openstreetmap.org/?street='";
             url = url + newLocation + "'&format=json&limit=1";
-            this.location = newLocation + 'St. Paul';
-            this.searchLocation()
+            
+
+            this.location = newLocation;
+            
+
+            this.searchLocationStreet('true', values)
 
     },
 
@@ -329,16 +345,10 @@ export default {
         }).catch((error) => {
             console.log("Error:", error);
         });
-<<<<<<< HEAD
-      //  this.getTableInfo();
-       // this.leaflet.map.on('mouseup', this.updateTextBox);
-       // this.leaflet.map.on('zoom', this.updateTextBox);
-=======
         this.getTableInfo();
         this.leaflet.map.on('mouseup', this.updateTextBox);
         this.leaflet.map.on('zoomend', this.updateTextBox);
 
->>>>>>> 65520e736a1b306bb96a5c14280db779555a51a6
     },
     
     components: { 
@@ -365,7 +375,7 @@ export default {
                 <div style = "float:left; left:80px; top:20px; padding-right: 50px;">
                     <!--Input TextBox-->
                     <input class="e-input" id="input-box" type="text" v-model="location" placeholder="Enter Location or Coord.">
-                    <button type="button" class="button" @click="searchLocationStreet">Go</button><br>
+                    <button type="button" class="button" @click="searchLocationStreet('false', 'none')">Go</button><br>
                     
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
@@ -422,7 +432,7 @@ export default {
                 <tbody>
                     <!-- <p>{{ this.incidents[1] }}</p> -->
                     <tr v-for="(value, key) in this.incidents" :key="key">
-                            <button type="button" class="button" @click="selectedCrimeMarker(value.block)" style="margin-top: 15px">Find Location</button>
+                            <button type="button" class="button" @click="selectedCrimeMarker(value)" style="margin-top: 15px">Find Location</button>
                             <td>{{ value.case_number }}</td>
                             <td v-text="getType(value.code)"></td> 
                             <td>{{ value.incident }}</td>
