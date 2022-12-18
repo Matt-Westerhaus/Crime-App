@@ -6,6 +6,13 @@ export default {
     data() {
         return {
 
+            case_number: "",
+            neighborhood_name: "",
+            start_date: "",
+            end_date: "",
+            limit: "",
+            start_time: "",
+            end_time: "",
             textbox: "",
             incidents: "",
             neighborhoods: "",
@@ -268,7 +275,21 @@ export default {
             this.location = newLocation + 'St. Paul';
             this.searchLocation()
 
-    },
+        },
+        rowStyles(code) {
+            if(code < 300 || (code >= 400 && code < 500) || (code >= 800 && code < 1000) || code == 2619 || code == 3100){
+                return "background: #F94822"
+            } else if ((code >= 300 && code < 400) | (code >= 500 && code < 800) || (code >= 1400 && code < 1500)){
+                return "background: #F9C322"
+            } else {
+                return "background: #22DBF9"
+            }
+        },   
+        filter() {
+            let query = ""
+            
+            getTableInfo(query)
+        }
 
     },
     
@@ -330,40 +351,64 @@ export default {
         </div> 
         
         
-        <!-- <form class="medium-3 cell" id="formSubmit" @submit="submitForm" >
-                
-                <label for="case_number">Case Number:</label>
-                <input required type="text" id="case_number" v-model="case_number"/>
+        <!-- <div class="grid-container">
+        <h3 class="cell auto">Filter Incidents</h3>
+        <div class="grid-x grid-padding-x">
+                <br>
+                <form class="medium-12 cell" style="display: flex; flex-direction: row"  id="formSubmit" @submit.prevent="filter" >
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="100px"><label for="case_number">Case Number:</label></th>
+                                <th width="100px"><label for="neighborhood_name">Neighborhood Name:</label></th>
+                                <th width="100px"><label for="start_date">Start Date:</label></th>
+                                <th width="100px"><label for="end_date">End Date:</label></th>
+                                <th width="100px"><label for="limit">Response Limit:</label></th>
+                                <th width="100px"><label for="start_time">Start Time:</label></th>
+                                <th width="100px"><label for="end_time">End Time:</label></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" id="case_number" v-model="case_number" required/> </td>
+                                <td><form id="different">
+                                    <input type="checkbox" id="neighborhood_name"/>Hello
+                                    <input type="checkbox" id="neighborhood_name" name="hello" />
+                                </form>
+                                </td> 
 
-                <label for="date_time">Date & Time:</label>
-                <input type="datetime-local" id="date_time" v-model="date_time" required/>
 
-                <label for="code">Code:</label>
-                <input type="number" id="code" v-model="code" required/>
+                                <td><input type="date" id="start_date" v-model="start_date" required/></td>
+                                <td><input type="date" id="end_date" v-model="end_date" required/></td>
+                                <td><input type="number" id="limit" v-model="limit" required/></td>
+                                <td><input type="time" id="start_time" v-model="start_time" required/></td>
+                                <td><input type="time" id="end_time" v-model="end_time" required/></td>
+                                <td><input type="submit" value="Update" class="button"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div> -->
 
-                <label for="incident">Incident:</label>
-                <input type="text" id="incident" v-model="incident" required/>
+        
 
-                <label for="police_grid">Police Grid:</label>
-                <input type="number" id="police_grid" v-model="police_grid" required/>
-
-                <label for="neighborhood_number">Neighborhood Number:</label>
-                <input type="number" id="neighborhood_number" v-model="neighborhood_number" required/>
-
-                <label for="block">Block:</label>
-                <input type="text" id="block" v-model="block" required/>
-
-                <input type="submit" class="button success"/>
-
-            </form> -->
 
 
 
         <br/><br/>
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <p class="cell small-4 center border" style="background-color: #F94822; text-align: center;">Violent Crime</p>
+            <p class="cell small-4 center border" style="background-color: #F9C322; text-align: center;">Property Crime</p>
+            <p class="cell small-4 center border" style="background-color: #22DBF9; text-align: center;">Other</p>
+    </div>
+    </div>
         <div class="center border ">
+            
             <table style="left:1em;">
-                <thead>
-                    <tr>
+                <thead style="background: #6699CC">
+                    <tr >
                     <th width="100px">Find Location</th>
                     <th width="100px">Case Number</th>
                     <th width="100px">Incident Type</th>
@@ -373,11 +418,12 @@ export default {
                     <th width="100px">Police Grid</th>
                     <th width="100px">Neighborhood Name</th>
                     <th width="150px">Block</th>
+                    <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- <p>{{ this.incidents[1] }}</p> -->
-                    <tr v-for="(value, key) in this.incidents" :key="key">
+                    <tr v-for="(value, key) in this.incidents" :key="key" v-bind:style="rowStyles(value.code)">
                             <button type="button" class="button" @click="selectedCrimeMarker(value.block)" style="margin-top: 15px">Find Location</button>
                             <td>{{ value.case_number }}</td>
                             <td v-text="getType(value.code)"></td> 
