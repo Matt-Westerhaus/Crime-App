@@ -5,6 +5,7 @@ import new_incident from './components/new_incident.vue'
 export default {
     data() {
         return {
+
             textbox: "",
             incidents: "",
             neighborhoods: "",
@@ -132,8 +133,8 @@ export default {
                 });
             });
         },
-        getTableInfo(){
-            let incident_url = "http://localhost:8001/incidents?limit=1000";
+        getTableInfo(query=""){
+            let incident_url = "http://localhost:8001/incidents?" + query;
             let neighborhood_url = "http://localhost:8001/neighborhoods";
             let code_url = "http://localhost:8001/codes"
             Promise.all([this.getJSON(incident_url),this.getJSON(neighborhood_url),this.getJSON(code_url)])
@@ -194,11 +195,6 @@ export default {
             let coords = this.leaflet.map.getBounds();
             let centerCoords = coords.getCenter();
             let url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=<1value>&lon=<2value>';
-            // on mouse up thing - map.on('mouseup,' onMouseUp)
-            
-            // map.on('mouseup', function(e) {
-
-            // });
             
             let newUrl = url.replace('<1value>', centerCoords.lat);
             newUrl = newUrl.replace('<2value>', centerCoords.lng);
@@ -297,7 +293,7 @@ export default {
         });
         this.getTableInfo();
         this.leaflet.map.on('mouseup', this.updateTextBox);
-        this.leaflet.map.on('zoom', this.updateTextBox);
+        this.leaflet.map.on('zoomend', this.updateTextBox);
 
     },
     
@@ -332,11 +328,43 @@ export default {
                 
             </div>
         </div> 
+        
+        
+        <!-- <form class="medium-3 cell" id="formSubmit" @submit="submitForm" >
+                
+                <label for="case_number">Case Number:</label>
+                <input required type="text" id="case_number" v-model="case_number"/>
+
+                <label for="date_time">Date & Time:</label>
+                <input type="datetime-local" id="date_time" v-model="date_time" required/>
+
+                <label for="code">Code:</label>
+                <input type="number" id="code" v-model="code" required/>
+
+                <label for="incident">Incident:</label>
+                <input type="text" id="incident" v-model="incident" required/>
+
+                <label for="police_grid">Police Grid:</label>
+                <input type="number" id="police_grid" v-model="police_grid" required/>
+
+                <label for="neighborhood_number">Neighborhood Number:</label>
+                <input type="number" id="neighborhood_number" v-model="neighborhood_number" required/>
+
+                <label for="block">Block:</label>
+                <input type="text" id="block" v-model="block" required/>
+
+                <input type="submit" class="button success"/>
+
+            </form> -->
+
+
+
         <br/><br/>
         <div class="center border ">
             <table style="left:1em;">
                 <thead>
                     <tr>
+                    <th width="100px">Find Location</th>
                     <th width="100px">Case Number</th>
                     <th width="100px">Incident Type</th>
                     <th width="100px">Incident</th>
@@ -350,7 +378,8 @@ export default {
                 <tbody>
                     <!-- <p>{{ this.incidents[1] }}</p> -->
                     <tr v-for="(value, key) in this.incidents" :key="key">
-                            <button type="button" class="button" @click="selectedCrimeMarker(value.block)">Find Location</button>
+                            <button type="button" class="button" @click="selectedCrimeMarker(value.block)" style="margin-top: 15px">Find Location</button>
+                            <td>{{ value.case_number }}</td>
                             <td v-text="getType(value.code)"></td> 
                             <td>{{ value.incident }}</td>
                             <td>{{ value.date }}</td>
