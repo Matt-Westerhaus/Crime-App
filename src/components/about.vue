@@ -154,7 +154,7 @@ export default {
         </p>
         Here is my <a href="https://github.com/Matt-Westerhaus/Matt-Westerhaus"> Github</a>
     </div>
-    <div class="cell small-6 large-6 center"><img src ="/images\matt_image.jpg" id="float-center" alt="Picture of Matt"/></div> 
+    <div class="cell small-6 large-6 center"><img src ="/images/matt_image.jpg" id="float-center" alt="Picture of Matt"/></div> 
 </div>
 </div>
     
