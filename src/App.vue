@@ -123,13 +123,8 @@ export default {
                 marker.addTo(this.leaflet.map);
             })
                 .catch((err) => {
-<<<<<<< HEAD
                     this.searchLocationLatLon();
             }); 
-=======
-                    console.log('did not find')
-            });
->>>>>>> 65520e736a1b306bb96a5c14280db779555a51a6
         },
         viewMap(event) {
             this.view = "map";
@@ -329,16 +324,9 @@ export default {
         }).catch((error) => {
             console.log("Error:", error);
         });
-<<<<<<< HEAD
       //  this.getTableInfo();
        // this.leaflet.map.on('mouseup', this.updateTextBox);
        // this.leaflet.map.on('zoom', this.updateTextBox);
-=======
-        this.getTableInfo();
-        this.leaflet.map.on('mouseup', this.updateTextBox);
-        this.leaflet.map.on('zoomend', this.updateTextBox);
-
->>>>>>> 65520e736a1b306bb96a5c14280db779555a51a6
     },
     
     components: { 
