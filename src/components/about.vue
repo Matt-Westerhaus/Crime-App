@@ -71,8 +71,11 @@ export default {
         </div>
         
         <div class="grid-x grid-padding-x">
-            <!-- Just a placeholder video-->
-            <iframe  height="500" width="100%" src="https://www.youtube.com/embed/tgbNymZ7vqY" allowfullscreen="true">
+            <!-- Just a placeholder video
+            <iframe  height="500" width="100%" src="https://youtu.be/vRfiC2n1SjE" allowfullscreen="true">
+            </iframe> -->
+            <iframe width="100%" height="500" src="https://www.youtube.com/embed/vRfiC2n1SjE" title="YouTube video player" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
             </iframe>
         </div>
     </div>
