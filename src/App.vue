@@ -190,9 +190,9 @@ export default {
             });
         },
         getTableInfo(query=""){
-            let incident_url = "http://localhost:8001/incidents?" + query;
-            let neighborhood_url = "http://localhost:8001/neighborhoods";
-            let code_url = "http://localhost:8001/codes"
+            let incident_url = "http://localhost:8000/incidents?" + query;
+            let neighborhood_url = "http://localhost:8000/neighborhoods";
+            let code_url = "http://localhost:8000/codes"
             Promise.all([this.getJSON(incident_url),this.getJSON(neighborhood_url),this.getJSON(code_url)])
             .then((results) => {
                 this.incidents = JSON.parse(JSON.stringify(results[0]));            
@@ -233,7 +233,7 @@ export default {
         delete_incident(case_number){
             console.log(case_number);
             $.ajax({
-                url: "http://localhost:8001/remove-incident",
+                url: "http://localhost:8000/remove-incident",
                 contentType: 'application/json',
                 type: 'DELETE',
                 data: "{\"case_number\":"+String(case_number)+"}",
@@ -402,53 +402,6 @@ export default {
                 
             </div>
         </div> 
-        
-        
-        <!-- <div class="grid-container">
-        <h3 class="cell auto">Filter Incidents</h3>
-        <div class="grid-x grid-padding-x">
-                <br>
-                <form class="medium-12 cell" style="display: flex; flex-direction: row"  id="formSubmit" @submit.prevent="filter" >
-                    <table>
-                        <thead>
-                            <tr>
-                                <th width="100px"><label for="case_number">Case Number:</label></th>
-                                <th width="100px"><label for="neighborhood_name">Neighborhood Name:</label></th>
-                                <th width="100px"><label for="start_date">Start Date:</label></th>
-                                <th width="100px"><label for="end_date">End Date:</label></th>
-                                <th width="100px"><label for="limit">Response Limit:</label></th>
-                                <th width="100px"><label for="start_time">Start Time:</label></th>
-                                <th width="100px"><label for="end_time">End Time:</label></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="checkbox" id="case_number" v-model="case_number" required/> </td>
-                                <td><form id="different">
-                                    <input type="checkbox" id="neighborhood_name"/>Hello
-                                    <input type="checkbox" id="neighborhood_name" name="hello" />
-                                </form>
-                                </td> 
-
-
-                                <td><input type="date" id="start_date" v-model="start_date" required/></td>
-                                <td><input type="date" id="end_date" v-model="end_date" required/></td>
-                                <td><input type="number" id="limit" v-model="limit" required/></td>
-                                <td><input type="time" id="start_time" v-model="start_time" required/></td>
-                                <td><input type="time" id="end_time" v-model="end_time" required/></td>
-                                <td><input type="submit" value="Update" class="button"/></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
-        </div> -->
-
-        
-
-
-
-
         <br/><br/>
     <div class="grid-container">
         <div class="grid-x grid-padding-x">
