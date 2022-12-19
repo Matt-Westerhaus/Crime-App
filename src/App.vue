@@ -366,16 +366,9 @@ export default {
         }).catch((error) => {
             console.log("Error:", error);
         });
-<<<<<<< HEAD
-      //  this.getTableInfo();
-       // this.leaflet.map.on('mouseup', this.updateTextBox);
-       // this.leaflet.map.on('zoom', this.updateTextBox);
-=======
         this.getTableInfo();
         this.leaflet.map.on('mouseup', this.updateTextBox);
         this.leaflet.map.on('zoomend', this.updateTextBox);
-
->>>>>>> 25292da8f945670c58e2dae2b1e2ab179f0ce608
     },
     
     components: { 
