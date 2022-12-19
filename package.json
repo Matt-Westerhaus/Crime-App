@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "RESTful Web Server and Single Page Application",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Matt Westerhaus",
+    "email": "west1114@stthomas.edu"
   },
   "contributors": [
     {
@@ -12,8 +12,8 @@
       "email": "xion6136@stthomas.edu"
     },
     {
-      "name": "",
-      "email": ""
+      "name": "Nolan Foy",
+      "email": "nolan.foy@stthomas.edu"
     }
   ],
   "repository": {
