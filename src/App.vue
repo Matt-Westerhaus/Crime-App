@@ -72,8 +72,8 @@ export default {
         searchLocationLatLon() {
             let lat_lon_url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=<1value>&lon=<2value>';
             let coord = this.location.split(',');
-            let coord_URL = lat_lon_url.replace('<1value>', coord[0].split());
-            coord_URL = coord_URL.replace('<2value>', coord[1].split());
+            let coord_URL = lat_lon_url.replace('<1value>', coord[0].trim());
+            coord_URL = coord_URL.replace('<2value>', coord[1].trim());
             this.getJSON(coord_URL)
             .then((data) => {
                  // Clamp coordinate if lat or lon is out of bound
