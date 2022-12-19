@@ -6,6 +6,13 @@ export default {
     data() {
         return {
 
+            case_number: "",
+            neighborhood_name: "",
+            start_date: "",
+            end_date: "",
+            limit: "",
+            start_time: "",
+            end_time: "",
             textbox: "",
             incidents: "",
             neighborhoods: "",
@@ -94,7 +101,7 @@ export default {
                 }); 
         },
         // TODO: If they search wit lat/lon instead of a street/place name
-        searchLocationStreet() {
+        searchLocationStreet(fromCrime, information) {
             let street_url = "https://nominatim.openstreetmap.org/?street='";
             let format_limit = "'&format=json&limit=1"
 
@@ -115,10 +122,26 @@ export default {
                     data[0].lon = -92.993787;
                 }
                 console.log(data);
+                let marker;
+                console.log(this.location);
+                // Zoom to search location
+                if (fromCrime == 'true') {
+                    var greenIcon = L.icon({
+                        iconUrl: '/images/green_icon.png',
+                        iconSize:     [38, 95],
+                        popupAnchor:  [-3, -76],
+                        iconAnchor:   [22, 94]
+                    });
+                    // Creating a marker
+                    marker = new L.Marker([data[0].lat, data[0].lon], {icon: greenIcon});
+                    marker.bindPopup("Date: " + information.date + ' | Time: ' + information.time + ' | Incident: ' + information.incident);
+                } else {
+                marker = new L.Marker([data[0].lat, data[0].lon]);
+                    
+                }
                 // Zoom to search location
                 this.leaflet.map.flyTo(new L.LatLng(data[0].lat, data[0].lon), 18);
                 // Creating a marker
-                let marker = new L.Marker([data[0].lat, data[0].lon]);
                 // Adding marker to the map
                 marker.addTo(this.leaflet.map);
             })
@@ -284,10 +307,11 @@ export default {
                     }
             }
         },
-        selectedCrimeMarker(loc) {
-       
+        selectedCrimeMarker(values) {
+            
+            let block = values.block;
+            let numberPart = block.split(' ');
         
-            let numberPart = loc.split(' ');
             numberPart[0] = numberPart[0].replaceAll('X', '0');
             console.log(numberPart);
             let newLocation = '';
@@ -298,10 +322,28 @@ export default {
             console.log(newLocation);
             let url = "https://nominatim.openstreetmap.org/?street='";
             url = url + newLocation + "'&format=json&limit=1";
-            this.location = newLocation + 'St. Paul';
-            this.searchLocation()
+            
 
-    },
+            this.location = newLocation;
+            
+
+            this.searchLocationStreet('true', values)
+
+        },
+        rowStyles(code) {
+            if(code < 300 || (code >= 400 && code < 500) || (code >= 800 && code < 1000) || code == 2619 || code == 3100){
+                return "background: #F94822"
+            } else if ((code >= 300 && code < 400) | (code >= 500 && code < 800) || (code >= 1400 && code < 1500)){
+                return "background: #F9C322"
+            } else {
+                return "background: #22DBF9"
+            }
+        },   
+        filter() {
+            let query = ""
+            
+            getTableInfo(query)
+        }
 
     },
     
@@ -324,9 +366,16 @@ export default {
         }).catch((error) => {
             console.log("Error:", error);
         });
+<<<<<<< HEAD
       //  this.getTableInfo();
        // this.leaflet.map.on('mouseup', this.updateTextBox);
        // this.leaflet.map.on('zoom', this.updateTextBox);
+=======
+        this.getTableInfo();
+        this.leaflet.map.on('mouseup', this.updateTextBox);
+        this.leaflet.map.on('zoomend', this.updateTextBox);
+
+>>>>>>> 25292da8f945670c58e2dae2b1e2ab179f0ce608
     },
     
     components: { 
@@ -353,7 +402,7 @@ export default {
                 <div style = "float:left; left:80px; top:20px; padding-right: 50px;">
                     <!--Input TextBox-->
                     <input class="e-input" id="input-box" type="text" v-model="location" placeholder="Enter Location or Coord.">
-                    <button type="button" class="button" @click="searchLocationStreet">Go</button><br>
+                    <button type="button" class="button" @click="searchLocationStreet('false', 'none')">Go</button><br>
                     
                 </div>
                 <div id="leafletmap" class="cell auto"></div>
@@ -362,64 +411,89 @@ export default {
         </div> 
         
         
-        <!-- <form class="medium-3 cell" id="formSubmit" @submit="submitForm" >
-                
-                <label for="case_number">Case Number:</label>
-                <input required type="text" id="case_number" v-model="case_number"/>
+        <!-- <div class="grid-container">
+        <h3 class="cell auto">Filter Incidents</h3>
+        <div class="grid-x grid-padding-x">
+                <br>
+                <form class="medium-12 cell" style="display: flex; flex-direction: row"  id="formSubmit" @submit.prevent="filter" >
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="100px"><label for="case_number">Case Number:</label></th>
+                                <th width="100px"><label for="neighborhood_name">Neighborhood Name:</label></th>
+                                <th width="100px"><label for="start_date">Start Date:</label></th>
+                                <th width="100px"><label for="end_date">End Date:</label></th>
+                                <th width="100px"><label for="limit">Response Limit:</label></th>
+                                <th width="100px"><label for="start_time">Start Time:</label></th>
+                                <th width="100px"><label for="end_time">End Time:</label></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" id="case_number" v-model="case_number" required/> </td>
+                                <td><form id="different">
+                                    <input type="checkbox" id="neighborhood_name"/>Hello
+                                    <input type="checkbox" id="neighborhood_name" name="hello" />
+                                </form>
+                                </td> 
 
-                <label for="date_time">Date & Time:</label>
-                <input type="datetime-local" id="date_time" v-model="date_time" required/>
 
-                <label for="code">Code:</label>
-                <input type="number" id="code" v-model="code" required/>
+                                <td><input type="date" id="start_date" v-model="start_date" required/></td>
+                                <td><input type="date" id="end_date" v-model="end_date" required/></td>
+                                <td><input type="number" id="limit" v-model="limit" required/></td>
+                                <td><input type="time" id="start_time" v-model="start_time" required/></td>
+                                <td><input type="time" id="end_time" v-model="end_time" required/></td>
+                                <td><input type="submit" value="Update" class="button"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div> -->
 
-                <label for="incident">Incident:</label>
-                <input type="text" id="incident" v-model="incident" required/>
+        
 
-                <label for="police_grid">Police Grid:</label>
-                <input type="number" id="police_grid" v-model="police_grid" required/>
-
-                <label for="neighborhood_number">Neighborhood Number:</label>
-                <input type="number" id="neighborhood_number" v-model="neighborhood_number" required/>
-
-                <label for="block">Block:</label>
-                <input type="text" id="block" v-model="block" required/>
-
-                <input type="submit" class="button success"/>
-
-            </form> -->
 
 
 
         <br/><br/>
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <p class="cell small-4 center border" style="background-color: #F94822; text-align: center;">Violent Crime</p>
+            <p class="cell small-4 center border" style="background-color: #F9C322; text-align: center;">Property Crime</p>
+            <p class="cell small-4 center border" style="background-color: #22DBF9; text-align: center;">Other</p>
+    </div>
+    </div>
         <div class="center border ">
+            
             <table style="left:1em;">
-                <thead>
-                    <tr>
-                    <th width="100px">Find Location</th>
-                    <th width="100px">Case Number</th>
-                    <th width="100px">Incident Type</th>
-                    <th width="100px">Incident</th>
-                    <th width="100px">Date</th>
-                    <th width="100px">Time</th>
-                    <th width="100px">Police Grid</th>
-                    <th width="100px">Neighborhood Name</th>
-                    <th width="150px">Block</th>
+                <thead style="background: #6699CC">
+                    <tr >
+                    <th width="100px" class="border">Find Location</th>
+                    <th width="100px" class="border">Case Number</th>
+                    <th width="100px" class="border">Incident Type</th>
+                    <th width="100px" class="border">Incident</th>
+                    <th width="100px" class="border">Date</th>
+                    <th width="100px" class="border">Time</th>
+                    <th width="100px" class="border">Police Grid</th>
+                    <th width="100px" class="border">Neighborhood Name</th>
+                    <th width="150px" class="border">Block</th>
+                    <th class="border"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- <p>{{ this.incidents[1] }}</p> -->
-                    <tr v-for="(value, key) in this.incidents" :key="key">
-                            <button type="button" class="button" @click="selectedCrimeMarker(value.block)" style="margin-top: 15px">Find Location</button>
-                            <td>{{ value.case_number }}</td>
-                            <td v-text="getType(value.code)"></td> 
-                            <td>{{ value.incident }}</td>
-                            <td>{{ value.date }}</td>
-                            <td>{{ value.time }}</td>
-                            <td>{{ value.police_grid }}</td>
-                            <td v-text="getNeighborhood(value.neighborhood_number)"></td>
-                            <td v-text="replaceX(value.block)"></td>
-                            <td><input type="submit" value="Delete" class="button alert" @click="delete_incident(value.case_number)"></td>
+                    <tr v-for="(value, key) in this.incidents" :key="key" v-bind:style="rowStyles(value.code)">
+                            <td class="border"> <button type="button" class="button" @click="selectedCrimeMarker(value)">Find Location</button></td>
+                            <td class="border">{{ value.case_number }}</td>
+                            <td class="border" v-text="getType(value.code)"></td> 
+                            <td class="border">{{ value.incident }}</td>
+                            <td class="border">{{ value.date }}</td>
+                            <td class="border">{{ value.time }}</td>
+                            <td class="border">{{ value.police_grid }}</td>
+                            <td class="border" v-text="getNeighborhood(value.neighborhood_number)"></td>
+                            <td class="border" v-text="replaceX(value.block)"></td>
+                            <td class="border"><input type="submit" value="Delete" class="button alert" @click="delete_incident(value.case_number)"></td>
                     </tr> 
                 </tbody>
             </table>
@@ -456,7 +530,7 @@ export default {
   width: 65%;
 }
 .border {
-  border: 3px solid black;
+    border: 2px solid black
 }
 </style>
 
