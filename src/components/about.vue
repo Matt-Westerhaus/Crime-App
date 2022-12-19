@@ -118,7 +118,7 @@ export default {
         </p>
         
     </div>
-    <div class="cell small-6 large-6 center"><img src ="images/nolan_image.JPG" class="floatleft" alt="Picture of Nolan"/></div> 
+    <div class="cell small-6 large-6 center"><img src ="/images/nolan_image.JPG" class="floatleft" alt="Picture of Nolan"/></div> 
 </div>
 <br/>
 
@@ -136,7 +136,7 @@ export default {
          I believe I will be working most of weekdays remote, but I am excited to be working with my team again.
     </p>
     </div>
-    <div class="cell small-12 large-6 center"><img src ="images/owen.jpeg" class="floatleft" alt="Picture of Owen"/></div> 
+    <div class="cell small-12 large-6 center"><img src ="/images/owen.jpeg" class="floatleft" alt="Picture of Owen"/></div> 
 </div>
 <br/>
 
@@ -154,7 +154,7 @@ export default {
         </p>
         Here is my <a href="https://github.com/Matt-Westerhaus/Matt-Westerhaus"> Github</a>
     </div>
-    <div class="cell small-6 large-6 center"><img src ="images\matt_image.jpg" id="float-center" alt="Picture of Matt"/></div> 
+    <div class="cell small-6 large-6 center"><img src ="/images\matt_image.jpg" id="float-center" alt="Picture of Matt"/></div> 
 </div>
 </div>
     

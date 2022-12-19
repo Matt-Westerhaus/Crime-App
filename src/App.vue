@@ -190,9 +190,9 @@ export default {
             });
         },
         getTableInfo(query=""){
-            let incident_url = "http://localhost:8001/incidents?" + query;
-            let neighborhood_url = "http://localhost:8001/neighborhoods";
-            let code_url = "http://localhost:8001/codes"
+            let incident_url = "http://localhost:8000/incidents?" + query;
+            let neighborhood_url = "http://localhost:8000/neighborhoods";
+            let code_url = "http://localhost:8000/codes"
             Promise.all([this.getJSON(incident_url),this.getJSON(neighborhood_url),this.getJSON(code_url)])
             .then((results) => {
                 this.incidents = JSON.parse(JSON.stringify(results[0]));            
